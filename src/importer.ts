@@ -8,6 +8,8 @@ interface Champion {
 };
 
 export const importer = async () => {
+  console.log("Wait a moment while we import the champions data...");
+
   const request = await fetch("http://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions.json");
   const response = await request.json();
 
