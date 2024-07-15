@@ -23,9 +23,9 @@ export const importer = async () => {
     });
   });
 
-  const ids = await vectorStore.addDocuments(documents);
+  await vectorStore.addDocuments(documents);
 
-  console.log(`Added ${ids.length} documents to the vector store.`);
+  console.log(`Added ${documents.length} documents to the vector store.`);
 }
 
 importer();

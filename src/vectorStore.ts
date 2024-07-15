@@ -1,10 +1,7 @@
-import { Chroma } from "@langchain/community/vectorstores/chroma";
+import { Milvus } from "@langchain/community/vectorstores/milvus";
 import { embeddings } from "./embeddings";
 
-export const vectorStore = new Chroma(embeddings, {
+export const vectorStore = new Milvus(embeddings, {
     collectionName: "champions",
-    url: "http://localhost:8000",
-    collectionMetadata: {
-        "hnsw:space": "cosine",
-    },
+    url: "http://localhost:19530",
 });
