@@ -1,6 +1,6 @@
 # League of Legends Diviner
 
-O League of Legends Diviner é um algoritmo simples feito com a biblioteca [LangChain](https://js.langchain.com/v0.2/docs/introduction/) e que usa embeddings de LLM para responder qual o personagem do League of Legends possui a lore mais aproximada com o prompt inserido a partir de uma busca por similaridade (busca vetorial).
+O League of Legends Diviner é um algoritmo simples feito com [Electron](https://www.electronjs.org) e [LangChain](https://js.langchain.com/v0.2/docs/introduction/) e que usa embeddings de LLM para responder qual o personagem do League of Legends possui a lore mais aproximada com o prompt inserido a partir de uma busca por similaridade (busca vetorial).
 
 ## 💻 Pré-requisitos
 1. Antes de começar, para executar a aplicação você precisará ter o [Docker](https://www.docker.com/) instalado em sua máquina para iniciar um servidor de banco de dados vetorial compatível com o *LangChain*.
@@ -35,5 +35,4 @@ Quando iniciar a aplicação, basta inserir prompts referentes a lore dos person
 5. `Ela tem o poder da luz, porém ela mantém seus poderes em segredo dos outros`, a resposta esperada é que seja o personagem: **Lux**.
 6. `Ela é uma ninja assassina que odeia ser comandada`, a resposta esperada é que seja o personagem: **Akali**.
 
-![Terminal](https://github.com/user-attachments/assets/20a6b0b1-7520-4543-8a31-ecd34698d112)
-
+https://github.com/user-attachments/assets/005370a7-b7fe-4e74-8378-d0869f5ad832
