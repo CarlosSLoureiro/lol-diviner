@@ -33,8 +33,20 @@ const output = async (input) => {
 
   const result = await window.API.sendPrompt(input);
 
+  const typewriter = new Typewriter(botText, {
+    skipAddStyles: true,
+    delay: 10,
+    cursor: '',
+  });
+
   const image = `<img src="${result.icon}" width="20px" height="20px">`;
 
-  botText.innerHTML = `<span class="champion"><strong>${result.name}</strong> ${image} ${result.title}</span>`;
-  botText.innerHTML += `<span><em>(similarity: ${result.similarity})</em><br>Lore: ${result.lore}</span>`;
+  typewriter
+    .typeString(
+      `<span class="champion"><strong>${result.name}</strong> ${image} ${result.title}</span>`
+    )
+    .typeString(
+      `<span><em>(similarity: ${result.similarity})</em><br>Lore: ${result.lore}</span>`
+    )
+    .start();
 };
