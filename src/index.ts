@@ -18,7 +18,9 @@ const ask = () => {
       process.exit();
     }
 
+    const time = Date.now();
     const results = await vectorStore.similaritySearchWithScore(result.lore, 1);
+    console.log(`Time: ${Date.now() - time}`);
     const [ champion, score ] = results[0];
 
     console.log(`Champion: ${champion.metadata.characterName} - ${champion.metadata.characterTitle} (Similarity: ${score})`);
