@@ -35,4 +35,4 @@ Quando iniciar a aplicação, basta inserir prompts referentes a lore dos person
 5. `Ela tem o poder da luz, porém ela mantém seus poderes em segredo dos outros`, a resposta esperada é que seja o personagem: **Lux**.
 6. `Ela é uma ninja assassina que odeia ser comandada`, a resposta esperada é que seja o personagem: **Akali**.
 
-https://github.com/user-attachments/assets/005370a7-b7fe-4e74-8378-d0869f5ad832
+https://github.com/user-attachments/assets/c4bf365e-1c2f-4377-a257-7de9df4a965a
