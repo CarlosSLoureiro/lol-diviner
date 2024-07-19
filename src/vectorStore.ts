@@ -1,24 +1,24 @@
-import { OpenSearchVectorStore } from "@langchain/community/vectorstores/opensearch";
-import { Client } from "@opensearch-project/opensearch";
+import { PGVectorStore, PGVectorStoreArgs } from "@langchain/community/vectorstores/pgvector";
 import { embeddings } from "./embeddings";
+import pg from "pg";
 
-const host = "localhost";
-const protocol = "https";
-const port = 9600;
-const auth = "admin:4dm1n-P455W0RD";
+const reusablePool = new pg.Pool({
+  host: "localhost",
+  port: 5432,
+  user: "postgres",
+  password: "postgres",
+  database: "vectorexample",
+});
 
-const client = new Client({
-  nodes: [
-    protocol + "://" + auth + "@" + host + ":" + 9200,
-    protocol + "://" + auth + "@" + host + ":" + 9600,
-  ],
-  ssl: {
-      rejectUnauthorized: false,
+const originalConfig: PGVectorStoreArgs = {
+  pool: reusablePool,
+  tableName: "champions",
+  columns: {
+    idColumnName: "id",
+    vectorColumnName: "vector",
+    contentColumnName: "content",
+    metadataColumnName: "metadata",
   },
-  
-});
+};
 
-export const vectorStore = new OpenSearchVectorStore(embeddings, {
-  client,
-  indexName: "champions",
-});
+export const vectorStore = new PGVectorStore(embeddings, originalConfig);
