@@ -1,24 +1,7 @@
-import { PGVectorStore, PGVectorStoreArgs } from "@langchain/community/vectorstores/pgvector";
 import { embeddings } from "./embeddings";
-import pg from "pg";
+import { QdrantVectorStore } from "@langchain/qdrant";
 
-const reusablePool = new pg.Pool({
-  host: "localhost",
-  port: 5432,
-  user: "postgres",
-  password: "postgres",
-  database: "vectorexample",
+export const vectorStore = new QdrantVectorStore(embeddings, {
+  url: "http://localhost:6333",
+  collectionName: "champions",
 });
-
-const originalConfig: PGVectorStoreArgs = {
-  pool: reusablePool,
-  tableName: "champions",
-  columns: {
-    idColumnName: "id",
-    vectorColumnName: "vector",
-    contentColumnName: "content",
-    metadataColumnName: "metadata",
-  },
-};
-
-export const vectorStore = new PGVectorStore(embeddings, originalConfig);
