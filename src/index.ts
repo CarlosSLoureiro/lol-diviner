@@ -1,33 +1,63 @@
-import { vectorStore } from "./vectorStore";
+import pgvector from "pgvector";
 
-import prompt from 'prompt';
+import { Champion } from "./champion";
+import { DataBase } from "./database";
+import { embeddings } from "./embeddings";
 
-const start = () => {
-  console.log('Describe the champion lore and press enter.');
+import prompt from "prompt";
+
+const start = async () => {
+  console.log("Starting...");
+  console.clear();
+
+  await DataBase.initialize();
+
+  console.log("Describe the champion lore and press enter.");
   console.log('Type "exit" to finish the program.');
-  console.log('');
+  console.log("");
 
   prompt.start();
 
   ask();
-}
+};
+
+const search = async (lore: string) => {
+  const repository = DataBase.getRepository(Champion);
+
+  const vector = await embeddings.embedQuery(lore);
+
+  const time = Date.now();
+
+  const query = await repository
+    .createQueryBuilder("champion")
+    .select(["champion.*"])
+    .addSelect("champion.vector <-> :vector", "similarity")
+    .orderBy("champion.vector <-> :vector")
+    .setParameters({ vector: pgvector.toSql(vector) })
+    .limit(1)
+    .getRawMany();
+
+  const [champion] = query;
+
+  console.log(`Time: ${Date.now() - time}ms`);
+  console.log(`Champion: ${champion.name} - ${champion.title} (Similarity: ${champion.similarity})`);
+  console.log("Lore:", champion.lore);
+  console.log("");
+};
 
 const ask = () => {
-  prompt.get(['lore'], async function (err: any, result: any) {      
-    if (result.lore === 'exit') {
+  prompt.get(["lore"], async function (err: any, result: any) {
+    if (result.lore === "exit") {
       process.exit();
     }
 
-    const time = Date.now();
-    const results = await vectorStore.similaritySearchWithScore(result.lore, 1);
-    console.log(`Time: ${Date.now() - time}`);
-    const [ champion, score ] = results[0];
-
-    console.log(`Champion: ${champion.metadata.characterName} - ${champion.metadata.characterTitle} (Similarity: ${score})`);
-    console.log('Lore:', champion.pageContent);
-    console.log('');
-
-    ask();
+    try {
+      await search(result.lore);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      ask();
+    }
   });
 };
 
